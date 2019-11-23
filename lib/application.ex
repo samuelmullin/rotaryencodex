@@ -5,7 +5,7 @@ defmodule RotaryEncodex.Application do
     import Supervisor.Spec, warn: false
 
     children = [
-      Supervisor.child_spec({RotaryEncodex.GenState, %{dt: :low, clk: :low, counter: 0}}, id: :genstate),
+      Supervisor.child_spec({RotaryEncodex.State, %{dt: :low, clk: :low, counter: 0}}, id: :state),
       Supervisor.child_spec({RotaryEncodex.Pin, %{pin: 17, name: :dt}}, id: :dt),
       Supervisor.child_spec({RotaryEncodex.Pin, %{pin: 18, name: :clk}}, id: :clk)
     ]

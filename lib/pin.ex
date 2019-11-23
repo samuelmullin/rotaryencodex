@@ -6,7 +6,7 @@ defmodule RotaryEncodex.Pin do
 
   @spec start_link(%{:pin => non_neg_integer(), :name => atom()}) :: GenServer.on_start()
   def start_link(%{pin: pin, name: name}) do
-    GenServer.start_link(__MODULE__, [pin, :pullup, :both, name], name: name)
+    GenServer.start_link(__MODULE__, [pin, :pulldown, :both, name], name: name)
   end
 
   @impl true
@@ -21,13 +21,13 @@ defmodule RotaryEncodex.Pin do
 
   @impl true
   def handle_info({:circuits_gpio, _gpio_pin, _timestamp, 1}, %{name: name} = state) do
-    GenServer.call(:genstate, {:set_high, name})
+    GenServer.call(:state, {:set_high, name})
     {:noreply, state}
   end
 
   @impl true
   def handle_info({:circuits_gpio, _gpio_pin, _timestamp, 0}, %{name: name} = state) do
-    GenServer.call(:genstate, {:set_low, name})
+    GenServer.call(:state, {:set_low, name})
     {:noreply, state}
   end
 

@@ -1,8 +1,8 @@
-defmodule RotaryEncodex.GenState do
+defmodule RotaryEncodex.State do
   use GenServer
 
   def start_link(initial_value) do
-    GenServer.start_link(__MODULE__, initial_value, name: :genstate)
+    GenServer.start_link(__MODULE__, initial_value, name: :state)
   end
 
   def init(initial_value) do
@@ -13,8 +13,7 @@ defmodule RotaryEncodex.GenState do
     state = state
     |> Map.put(:dt, :high)
 
-
-    {:reply, "State: #{inspect(state)}", state}
+    {:reply, "Set pin: :dt to :high", state}
   end
 
   def handle_call({:set_high, :dt}, _from, %{counter: counter, dt: :low, clk: :high} = state) do
@@ -23,18 +22,18 @@ defmodule RotaryEncodex.GenState do
     |> Map.put(:counter, counter - 1)
 
     IO.puts("Counter: #{counter - 1}")
-    {:reply, "State: #{inspect(state)}", state}
+    {:reply, "Set pin: :dt to :high and decremented counter to #{counter - 1}", state}
   end
 
   def handle_call({:set_high, :dt}, _from, %{counter: _counter, dt: :high, clk: _clk} = state) do
-    {:reply, "State: #{inspect(state)}", state}
+    {:reply, "Pin: :dt already set to :high", state}
   end
 
   def handle_call({:set_high, :clk}, _from, %{counter: _counter, dt: :low, clk: :low} = state) do
     state = state
     |> Map.put(:clk, :high)
 
-    {:reply, "State: #{inspect(state)}", state}
+    {:reply, "Set pin: clk to :high", state}
   end
 
   def handle_call({:set_high, :clk}, _from, %{counter: counter, dt: :high, clk: :low} = state) do
@@ -43,18 +42,18 @@ defmodule RotaryEncodex.GenState do
     |> Map.put(:counter, counter + 1)
 
     IO.puts("Counter: #{counter + 1}")
-    {:reply, "State: #{inspect(state)}", state}
+    {:reply, "Set pin: :clk to :high and incremented counter to #{counter + 1}", state}
   end
 
   def handle_call({:set_high, :clk}, _from, %{counter: _counter, dt: _dt, clk: :high} = state) do
-    {:reply, "State: #{inspect(state)}", state}
+    {:reply, "Pin :clk already set to :high", state}
   end
 
   def handle_call({:set_low, pin}, _from, state) do
     state = state
     |> Map.put(pin, :low)
 
-    {:reply, "State: #{inspect(state)}", state}
+    {:reply, "Set pin #{pin} to :low", state}
   end
 
 end
