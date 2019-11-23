@@ -9,20 +9,20 @@ defmodule RotaryEncodex.GenState do
     {:ok, initial_value}
   end
 
-  def handle_call({:set_high, :dt}, _from, %{counter: counter, dt: :low, clk: :low} = state) do
+  def handle_call({:set_high, :dt}, _from, %{counter: _counter, dt: :low, clk: :low} = state) do
     state = state
     |> Map.put(:dt, :high)
-    |> Map.put(:counter, counter + 1)
 
-    IO.puts("Counter: #{counter + 1}")
-    {:reply, "Counter: #{counter + 1}, State: #{inspect(state)}", state}
+
+    {:reply, "State: #{inspect(state)}", state}
   end
 
-  def handle_call({:set_high, :dt}, _from, %{counter: _counter, dt: :low, clk: :high} = state) do
+  def handle_call({:set_high, :dt}, _from, %{counter: counter, dt: :low, clk: :high} = state) do
     state = state
-    |> Map.put(:dt, :low)
-    |> Map.put(:clk, :low)
+    |> Map.put(:dt, :high)
+    |> Map.put(:counter, counter - 1)
 
+    IO.puts("Counter: #{counter - 1}")
     {:reply, "State: #{inspect(state)}", state}
   end
 
@@ -30,20 +30,19 @@ defmodule RotaryEncodex.GenState do
     {:reply, "State: #{inspect(state)}", state}
   end
 
-  def handle_call({:set_high, :clk}, _from, %{counter: counter, dt: :low, clk: :low} = state) do
+  def handle_call({:set_high, :clk}, _from, %{counter: _counter, dt: :low, clk: :low} = state) do
     state = state
     |> Map.put(:clk, :high)
-    |> Map.put(:counter, counter - 1)
 
-    IO.puts("Counter: #{counter - 1}")
-    {:reply, "Counter: #{counter - 1}, State: #{inspect(state)}", state}
+    {:reply, "State: #{inspect(state)}", state}
   end
 
-  def handle_call({:set_high, :clk}, _from, %{counter: _counter, dt: :high, clk: :low} = state) do
+  def handle_call({:set_high, :clk}, _from, %{counter: counter, dt: :high, clk: :low} = state) do
     state = state
-    |> Map.put(:dt, :low)
-    |> Map.put(:clk, :low)
+    |> Map.put(:clk, :high)
+    |> Map.put(:counter, counter + 1)
 
+    IO.puts("Counter: #{counter + 1}")
     {:reply, "State: #{inspect(state)}", state}
   end
 
@@ -51,7 +50,10 @@ defmodule RotaryEncodex.GenState do
     {:reply, "State: #{inspect(state)}", state}
   end
 
-  def handle_call({:set_low, _pin}, _from, state) do
+  def handle_call({:set_low, pin}, _from, state) do
+    state = state
+    |> Map.put(pin, :low)
+
     {:reply, "State: #{inspect(state)}", state}
   end
 

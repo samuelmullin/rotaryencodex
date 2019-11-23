@@ -6,7 +6,7 @@ defmodule RotaryEncodex.Pin do
 
   @spec start_link(%{:pin => non_neg_integer(), :name => atom()}) :: GenServer.on_start()
   def start_link(%{pin: pin, name: name}) do
-    GenServer.start_link(__MODULE__, [pin, :pulldown, :both, name], name: name)
+    GenServer.start_link(__MODULE__, [pin, :pullup, :both, name], name: name)
   end
 
   @impl true
