@@ -33,7 +33,6 @@ defmodule RotaryEncodex.State do
     |> Map.put(:dt, :high)
     |> Map.put(:counter, counter - 1)
 
-    IO.puts("Counter: #{counter - 1}")
     {:reply, "Set pin: :dt to :high and decremented counter to #{counter - 1}", state}
   end
 
@@ -53,7 +52,6 @@ defmodule RotaryEncodex.State do
     |> Map.put(:clk, :high)
     |> Map.put(:counter, counter + 1)
 
-    IO.puts("Counter: #{counter + 1}")
     {:reply, "Set pin: :clk to :high and incremented counter to #{counter + 1}", state}
   end
 

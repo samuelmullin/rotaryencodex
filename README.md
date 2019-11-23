@@ -1,16 +1,16 @@
-# Button
+# RotaryEncodex
 
-**TODO: Add description**
+Some simple logic to use a rotary encoder in Elixir.  Turning clockwise will increment a counter, turning counterclockwise will decrement it.   You can call `RotaryEncodex.get_value()` to get the current value of the counter.
 
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `button` to your list of dependencies in `mix.exs`:
+by adding `rotaryencodex` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:button, "~> 0.1.0"}
+    {:rotaryencodex, "~> 0.1.0"}
   ]
 end
 ```
