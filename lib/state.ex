@@ -9,6 +9,18 @@ defmodule RotaryEncodex.State do
     {:ok, initial_value}
   end
 
+  def set_high(pin) do
+    GenServer.call(:state, {:set_high, pin})
+  end
+
+  def set_low(pin) do
+    GenServer.call(:state, {:set_low, pin})
+  end
+
+  def get_value() do
+    GenServer.call(:state, :get_value)
+  end
+
   def handle_call({:set_high, :dt}, _from, %{counter: _counter, dt: :low, clk: :low} = state) do
     state = state
     |> Map.put(:dt, :high)
@@ -54,6 +66,10 @@ defmodule RotaryEncodex.State do
     |> Map.put(pin, :low)
 
     {:reply, "Set pin #{pin} to :low", state}
+  end
+
+  def handle_call(:get_value, _from, %{counter: counter} = state) do
+    {:reply, counter, state}
   end
 
 end

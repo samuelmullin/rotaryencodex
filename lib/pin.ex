@@ -21,13 +21,15 @@ defmodule RotaryEncodex.Pin do
 
   @impl true
   def handle_info({:circuits_gpio, _gpio_pin, _timestamp, 1}, %{name: name} = state) do
-    GenServer.call(:state, {:set_high, name})
+    RotaryEncodex.State.set_high(name)
+
     {:noreply, state}
   end
 
   @impl true
   def handle_info({:circuits_gpio, _gpio_pin, _timestamp, 0}, %{name: name} = state) do
-    GenServer.call(:state, {:set_low, name})
+    RotaryEncodex.State.set_low(name)
+
     {:noreply, state}
   end
 
