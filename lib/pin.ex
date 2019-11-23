@@ -10,7 +10,6 @@ defmodule RotaryEncodex.Pin do
   end
 
   @impl true
-  @spec init([...]) :: {:ok, %{gpio: reference, name: any, pin: non_neg_integer}}
   def init([gpio_pin, pull_mode, interrupts, name]) do
     # Button
     {:ok, gpio} = Circuits.GPIO.open(gpio_pin, :input)
