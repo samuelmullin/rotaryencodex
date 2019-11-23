@@ -25,7 +25,8 @@ defmodule RotaryEncodex.MixProject do
 
   defp deps do
     [
-     {:circuits_gpio, "~> 0.4.3"}
+     {:circuits_gpio, "~> 0.4.3"},
+     {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
